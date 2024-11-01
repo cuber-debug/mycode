@@ -1,0 +1,63 @@
+#include <stdio.h>
+#include <string.h>
+#define N 1e8
+int a[1000],b[1000],sum[1000];
+
+int main(){
+	long long x,i,j,k;
+	sum[0]=4;//加入首项*4
+	a[0]=4;//4.000000/x 
+	
+	for(i=1;i<N;i++){//循环进行项数 
+		
+		x=2*i+1;
+		int tempa=0;
+		 
+	for(j=0;j<150;j++){//-4.0/(2*i+1)
+		tempa=tempa*10+a[j];
+		b[j]=tempa/x;
+		tempa=tempa%x;
+	}
+    //for(k=0;k<150;k++)printf("%d",b[k]);
+    //printf("\n");
+	for(k=0;k<150;k++){//偶数项减法 
+		sum[k]-=b[k];
+	}
+	for(k=150;k>0;k--){//减法进位 
+		if(sum[k]<0){
+			sum[k-1]--;
+			sum[k]+=10;
+		}
+	}
+	memset(b,0,1000);
+	
+	i++;
+	x=2*i+1;
+	int tempb=0;
+	
+	for(j=0;j<150;j++){//+4.0/(2*i+1)
+		tempb=tempb*10+a[j];
+	    b[j]=tempb/x;
+		tempb=tempb%x;
+	}
+//	for(k=0;k<150;k++)printf("%d",b[k]);
+    //printf("\n");
+		for(k=0;k<150;k++){//偶数项加法 
+		sum[k]+=b[k];
+	    }
+	for(k=150;k>0;k--){//加法进位 
+		if(sum[k]>=10){
+			sum[k-1]++;
+			sum[k]-=10;
+		}
+	}
+	memset(b,0,1000);
+	
+    } 
+  
+	printf("%d.",sum[0]);//打印pi 
+	for(k=1;k<150;k++){
+     printf("%d",sum[k]);
+	}
+	return 0;
+ }
